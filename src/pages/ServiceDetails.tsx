@@ -58,7 +58,7 @@ const ServiceDetails = () => {
       faqs: [
         {
           question: 'Are contact lenses safe to wear?',
-          answer: 'Yes, contact lenses are safe when properly fitted and cared for. Following your optometrist's instructions for wear time, cleaning, and replacement schedule is essential for maintaining eye health.'
+          answer: "Yes, contact lenses are safe when properly fitted and cared for. Following your optometrist's instructions for wear time, cleaning, and replacement schedule is essential for maintaining eye health."
         },
         {
           question: 'Can I sleep in my contact lenses?',
@@ -94,7 +94,7 @@ const ServiceDetails = () => {
         },
         {
           question: 'Are eye exams different for children?',
-          answer: 'Yes, pediatric eye exams are tailored to the child's age and development level. We use special techniques and equipment designed for children, and the process is made engaging and comfortable.'
+          answer: "Yes, pediatric eye exams are tailored to the child's age and development level. We use special techniques and equipment designed for children, and the process is made engaging and comfortable."
         }
       ]
     },
@@ -150,13 +150,13 @@ const ServiceDetails = () => {
         },
         {
           question: 'What can I do to protect my eyes as I age?',
-          answer: 'Maintain a healthy lifestyle with a nutrient-rich diet, regular exercise, and sun protection. Don't smoke, control blood pressure and blood sugar, have regular eye exams, and follow your optometrist's recommendations for any existing conditions.'
+          answer: "Maintain a healthy lifestyle with a nutrient-rich diet, regular exercise, and sun protection. Don't smoke, control blood pressure and blood sugar, have regular eye exams, and follow your optometrist's recommendations for any existing conditions."
         }
       ]
     },
     'laser-consultation': {
       title: 'Laser Surgery Consultation',
-      description: 'Expert advice and evaluation to determine if you're a candidate for laser vision correction.',
+      description: "Expert advice and evaluation to determine if you're a candidate for laser vision correction.",
       longDescription: `
         If you're considering laser vision correction such as LASIK or PRK, our comprehensive consultation service will help you determine if you're a suitable candidate and which procedure might be best for your unique eyes and visual needs.
         
@@ -170,10 +170,10 @@ const ServiceDetails = () => {
       faqs: [
         {
           question: 'Am I a good candidate for laser eye surgery?',
-          answer: 'Good candidates typically have stable vision for at least a year, are over 18 years old, have adequate corneal thickness, and don't have certain eye conditions or systemic diseases. Our comprehensive evaluation will determine your suitability.'
+          answer: "Good candidates typically have stable vision for at least a year, are over 18 years old, have adequate corneal thickness, and don't have certain eye conditions or systemic diseases. Our comprehensive evaluation will determine your suitability."
         },
         {
-          question: 'What's the difference between LASIK and PRK?',
+          question: "What's the difference between LASIK and PRK?",
           answer: 'Both procedures use a laser to reshape the cornea. LASIK creates a thin flap in the cornea before reshaping, allowing for quicker recovery. PRK removes the outer layer of the cornea before reshaping and may be better for patients with thinner corneas, though recovery takes longer.'
         },
         {
@@ -181,7 +181,7 @@ const ServiceDetails = () => {
           answer: 'The correction itself is permanent, but your eyes can change over time due to aging or other factors. Some patients may need reading glasses as they age due to presbyopia, a natural aging process of the eye.'
         }
       ]
-    },
+    }
   };
 
   const service = serviceId ? services[serviceId as keyof typeof services] : null;

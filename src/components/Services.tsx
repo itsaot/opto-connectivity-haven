@@ -75,7 +75,7 @@ const Services = () => {
     {
       id: 'laser-consultation',
       title: 'Laser Surgery Consultation',
-      description: 'Expert advice and evaluation to determine if you're a candidate for laser vision correction.',
+      description: "Expert advice and evaluation to determine if you're a candidate for laser vision correction.",
       icon: '⚡',
       price: 'R850',
       duration: '60 minutes'
