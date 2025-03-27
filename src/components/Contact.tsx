@@ -1,8 +1,69 @@
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { toast } from "sonner";
+
+// Define the form schema with zod
+const formSchema = z.object({
+  name: z.string().min(2, { message: "Name must be at least 2 characters" }),
+  email: z.string().email({ message: "Please enter a valid email address" }),
+  subject: z.string().optional(),
+  message: z.string().min(10, { message: "Message must be at least 10 characters" }),
+});
+
+// Infer the type from the schema
+type ContactFormValues = z.infer<typeof formSchema>;
 
 const Contact = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Initialize the form with react-hook-form
+  const form = useForm<ContactFormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      subject: "",
+      message: "",
+    },
+  });
+
+  // Handle form submission
+  const onSubmit = async (data: ContactFormValues) => {
+    setIsSubmitting(true);
+    
+    try {
+      // In a real application, this would be a call to your backend API
+      // For demonstration, we'll simulate a successful submission after a delay
+      console.log("Form data submitted:", data);
+      
+      // Simulate API call delay
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      // Show success message
+      toast.success("Message sent successfully", {
+        description: "We'll get back to you soon!",
+        duration: 5000,
+      });
+      
+      // Reset the form
+      form.reset();
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      toast.error("Failed to send message", {
+        description: "Please try again later or contact us directly.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -97,75 +158,103 @@ const Contact = () => {
             <div className="glass-card p-8">
               <h3 className="text-2xl font-bold text-optometry-dark mb-6">Send a Message</h3>
               
-              <form className="space-y-6">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-optometry-dark mb-1">
-                    Your Name *
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                  <FormField
+                    control={form.control}
                     name="name"
-                    required
-                    className="input-field"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-medium text-optometry-dark">
+                          Your Name *
+                        </FormLabel>
+                        <FormControl>
+                          <Input placeholder="John Smith" {...field} className="input-field" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                </div>
-                
-                <div>
-                  <label htmlFor="contactEmail" className="block text-sm font-medium text-optometry-dark mb-1">
-                    Email Address *
-                  </label>
-                  <input
-                    type="email"
-                    id="contactEmail"
+                  
+                  <FormField
+                    control={form.control}
                     name="email"
-                    required
-                    className="input-field"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-medium text-optometry-dark">
+                          Email Address *
+                        </FormLabel>
+                        <FormControl>
+                          <Input placeholder="you@example.com" {...field} className="input-field" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                </div>
-                
-                <div>
-                  <label htmlFor="subject" className="block text-sm font-medium text-optometry-dark mb-1">
-                    Subject
-                  </label>
-                  <input
-                    type="text"
-                    id="subject"
+                  
+                  <FormField
+                    control={form.control}
                     name="subject"
-                    className="input-field"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-medium text-optometry-dark">
+                          Subject
+                        </FormLabel>
+                        <FormControl>
+                          <Input placeholder="What's this about?" {...field} className="input-field" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                </div>
-                
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-optometry-dark mb-1">
-                    Message *
-                  </label>
-                  <textarea
-                    id="message"
+                  
+                  <FormField
+                    control={form.control}
                     name="message"
-                    rows={4}
-                    required
-                    className="input-field"
-                  ></textarea>
-                </div>
-                
-                <button
-                  type="submit"
-                  className="btn-primary w-full"
-                >
-                  Send Message
-                </button>
-              </form>
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-medium text-optometry-dark">
+                          Message *
+                        </FormLabel>
+                        <FormControl>
+                          <Textarea
+                            placeholder="How can we help you?"
+                            className="input-field"
+                            rows={4}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <Button
+                    type="submit"
+                    className="btn-primary w-full"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? "Sending..." : "Send Message"}
+                  </Button>
+                </form>
+              </Form>
             </div>
           </div>
         </div>
         
         <div className="mt-20 animate-on-scroll">
           <div className="glass-card p-4 aspect-[16/7] overflow-hidden rounded-xl">
-            {/* Replace with actual Google Maps iframe */}
-            <div className="w-full h-full bg-optometry-gray flex items-center justify-center">
-              <p className="text-optometry-primary">Google Maps will be embedded here</p>
-            </div>
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3464.9788696386057!2d31.056752775845756!3d-29.734239474056135!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1ef70f8f778a289d%3A0xd27d50b3a5d9e41f!2s250%20Umhlanga%20Rocks%20Dr%2C%20Umhlanga%2C%20Durban%2C%204320%2C%20South%20Africa!5e0!3m2!1sen!2sus!4v1685538345678!5m2!1sen!2sus" 
+              width="100%" 
+              height="100%" 
+              style={{ border: 0 }} 
+              allowFullScreen 
+              loading="lazy" 
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Google Maps - Ngcobo Optometry Location"
+              className="rounded-lg"
+            ></iframe>
           </div>
         </div>
       </div>
